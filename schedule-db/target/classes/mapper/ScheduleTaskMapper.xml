@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plf.schedule.db.mysql.mapper.ScheduleTaskMapper">
+ 
+    <resultMap id="BaseResultMap" type="com.plf.schedule.model.ScheduleTask">
+        <result column="id" jdbcType="VARCHAR" property="id" />
+        <result column="cron" jdbcType="VARCHAR" property="cron" />
+        <result column="clazz" jdbcType="VARCHAR" property="clazz" />
+        <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+        <result column="group_id" jdbcType="INTEGER" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="flag" jdbcType="TINYINT" property="flag" />
+    </resultMap>
+ 
+    <select id="findByTaskName" resultMap="BaseResultMap">
+        select st.id,st.cron,st.clazz,st.task_name,st.group_id,sg.group_name,st.createtime,st.flag from schedule_task st left join 
+        schedule_group sg on sg.id = st.group_id
+        <where>
+        	<if test="taskName != null and taskName !='' ">
+        		and st.task_name like concat(concat('%',#{taskName}),'%')
+        	</if>
+        </where>
+    </select>
+ 
+</mapper>

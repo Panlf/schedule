@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plf.schedule.db.mysql.mapper.ScheduleGroupMapper">
+ 
+    <resultMap id="BaseResultMap" type="com.plf.schedule.model.ScheduleGroup">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="flag" jdbcType="TINYINT" property="flag" />
+    </resultMap>
+ 
+    <select id="findByName" resultMap="BaseResultMap">
+        select id,group_name,createtime,flag from schedule_group 
+        <where>
+        	<if test="groupName != null and groupName !='' ">
+        		and group_name like concat(concat('%',#{groupName}),'%')
+        	</if>
+        </where>
+    </select>
+ 
+</mapper>
